@@ -2,19 +2,20 @@ package Level_1.Exercise_1;
 
 import Level_1.Exercise_1.model.FileExplorer;
 
-import java.io.File;
-import java.util.Arrays;
-
 public class RunMain {
 
-    public static void start(){
+    public static void start(String[] args){
 
         FileExplorer fileExplorer = new FileExplorer();
 
+        if (args.length < 1){
+            System.out.println("Please provide a directory path: ");
+            return;
+        }
+
         try {
-            String filepath = "C:/Users/dcs19/IdeaProjects/S105_Utils/src/Level_1/Exercise_1";
-            File[] files = fileExplorer.listDirectoryContents(filepath);
-            Arrays.sort(files);
+            String filepath = args[0];
+            fileExplorer.listDirectoryContents(filepath);
         } catch (IllegalArgumentException iae) {
             System.err.println("Error: " + iae.getMessage());
         }

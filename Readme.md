@@ -41,7 +41,16 @@ The program implements the Serializable interface and allows the user to seriali
 ## ▶️ How to Run
 - Clone the repository  
 - Open the project using IntelliJ IDEA  
-- Execute Main.java  
+- Compile the code:    
+
+`javac -d bin src/Level_1/Exercise_1/*.java src/Level_1/Exercise_1/model/*.java`   
+
+  Depending on the exercise, the number should be modified in the path (Exercise_2, Exercise_3, etc.).   
+- Execute Main.java adding the desired directory:  
+
+`java -cp bin Level_1.Exercise_1.Main "src/Level_1/Exercise_1"`   
+
+In the same way as for the compilation, the number should be modified in the path to be able to execute the program from the terminal (Exercise_2, Exercise_3, etc.).
 - Follow the console prompts to test each feature  
 - Ensure appropriate read/write permissions for file paths used.  
 

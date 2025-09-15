@@ -3,42 +3,64 @@ package Level_1.Exercise_3.model;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 public class FileExplorer {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyy HH:mm:ss");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-    public List<String> listDirectoryContents(File directoryPath) throws IllegalArgumentException {
+    public ArrayList<String> listDirectoryContents(File directoryPath){
+        if (!directoryPath.exists() || !directoryPath.isDirectory()) {
+            throw new IllegalArgumentException("Invalid directory: " + directoryPath);
+        }
+        System.out.println("[DIR]  " + directoryPath.getName() + "   Last Modified: " + DATE_FORMAT.format(new Date(directoryPath.lastModified())));
 
-        List<String> directories = new ArrayList<>();
-        File directory = new File(String.valueOf(directoryPath));
+        return listDirectoryContents(directoryPath, "  ");
+    }
 
-        if (!directory.exists()) {
+    public ArrayList<String> listDirectoryContents(File directoryPath, String indent) {
+
+        File[] contentsArray = getContents(directoryPath);
+
+        Arrays.sort(contentsArray, (f1, f2) -> {
+            if (f1.isFile() && f2.isDirectory()) return -1;
+            if (f1.isDirectory() && f2.isFile()) return 1;
+            return f1.getName().compareToIgnoreCase(f2.getName());
+        });
+
+        ArrayList<String> exportArray = new ArrayList<>();
+
+        for (File contentUnit : contentsArray) {
+            String prefix = contentUnit.isDirectory() ? "[DIR]  " : "[FILE] ";
+            String lastModified = "Last Modified: " + DATE_FORMAT.format(new Date(contentUnit.lastModified()));
+            String exportLine = indent + "|__" + prefix + contentUnit.getName() + "   " + lastModified;
+            exportArray.add(exportLine);
+
+
+            if (contentUnit.isDirectory()) {
+                ArrayList<String> recursiveLines = listDirectoryContents(contentUnit, indent + "     ");
+                exportArray.addAll(recursiveLines);
+            }
+        }
+        return exportArray;
+    }
+
+    private static File[] getContents(File directoryPath) {
+
+        if (!directoryPath.exists()) {
             throw new IllegalArgumentException("The directory does not exist: " + directoryPath);
         }
 
-        if (!directory.isDirectory()) {
+        if (!directoryPath.isDirectory()) {
             throw new IllegalArgumentException("Path is not a directory: " + directoryPath);
         }
 
-        File[] filesArray = directory.listFiles();
+        File[] contentsArray = directoryPath.listFiles();
 
-        if (filesArray == null) {
+        if (contentsArray == null) {
             throw new IllegalArgumentException("Cannot access directory contents: " + directoryPath);
         }
-
-        for (File file : filesArray) {
-            String line = (file.isDirectory() ? "[DIR] " : "[FILE] ") + file.getName() + "  Last Modified: " + DATE_FORMAT.format(new Date(file.lastModified()));
-            directories.add(line);
-            System.out.println(line);
-
-            if (file.isDirectory()){
-                directories.addAll(listDirectoryContents(file));
-
-            }
-        }
-        return directories;
+        return contentsArray;
     }
 }

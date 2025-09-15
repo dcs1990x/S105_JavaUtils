@@ -10,8 +10,7 @@ public class FileExporter {
 
     public void exportFile(List<String> files){
 
-        String filepath = "C:" + File.separator + "Users" + File.separator + "dcs19" + File.separator + "IdeaProjects" + File.separator + "S105_Utils" +
-                File.separator + "src" + File.separator + "Level_1" + File.separator + "Ejercicio_3" + File.separator + "resources" + File.separator + "directories.txt";
+        String filepath = "src" + File.separator + "Level_1" + File.separator + "Exercise_4" + File.separator + "resources" + File.separator + "directories.txt";
 
         File outputFile = new File(filepath);
         File parentDirectory = outputFile.getParentFile();
@@ -21,15 +20,13 @@ public class FileExporter {
         }
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))){
-
             writer.write("List of directories and files: \n\n" );
 
             for (String line : files){
                 writer.write(line);
                 writer.newLine();
             }
-            System.out.println("\nFile saved successfully in directory: " + outputFile.getAbsolutePath());
-
+            System.out.println("\nFile saved successfully in directory: " + outputFile.getPath());
         } catch(IOException ioe){
             System.err.println("An error occurred during export process. " + ioe.getMessage());
         }

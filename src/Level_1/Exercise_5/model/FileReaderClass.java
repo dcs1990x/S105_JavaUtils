@@ -5,18 +5,15 @@ import java.util.ArrayList;
 
 public class FileReaderClass {
 
-    public ArrayList<String> readFile(File filepath) throws FileNotFoundException, IOException {
+    public ArrayList<String> readFile(File filepath) {
 
-        ArrayList<String> fileContents = new ArrayList<String>();
+        ArrayList<String> fileContents = new ArrayList<>();
 
         try(BufferedReader br = new BufferedReader(new FileReader(filepath))){
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (!line.trim().isEmpty()) {
-                    fileContents.add(line);
-                }
+            String line = "";
+            while ((br.readLine()) != null) {
+                fileContents.add(line);
             }
-
             if (fileContents.isEmpty()) {
                 System.out.println("The file is empty. ");
             }
@@ -29,11 +26,9 @@ public class FileReaderClass {
     }
 
     public void printToConsole(ArrayList<String> fileContents){
-
         if (fileContents.isEmpty()){
             throw new IllegalArgumentException("The file is empty. ");
         }
-
         for (String line : fileContents){
             System.out.println(line);
         }

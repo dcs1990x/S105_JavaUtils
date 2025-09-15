@@ -1,6 +1,7 @@
 package Level_1.Exercise_1.model;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class FileExplorer {
 
@@ -22,8 +23,10 @@ public class FileExplorer {
             throw new IllegalArgumentException("Cannot access directory contents: " + directoryPath);
         }
 
+        Arrays.sort(filesArray);
+
         for (File file : filesArray) {
-            System.out.println((file.isDirectory() ? "[DIR] " : "[FILE] ") + file.getName());
+            System.out.println((file.isDirectory() ? "[DIR]  " : "[FILE] ") + file.getName());
         }
         return filesArray;
     }

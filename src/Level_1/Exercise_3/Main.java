@@ -4,6 +4,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        RunMain.start();
+        RunMain.start(args);
     }
 }
